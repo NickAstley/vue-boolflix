@@ -1,6 +1,9 @@
 <template>
     <ul>
         <li>
+            <img :src="searchItemPoster" :alt="`Poster di ${searchItemTitle}`">
+        </li>
+        <li>
             <b>Titolo: </b> {{ searchItemTitle }}
         </li>
         <li>
@@ -22,6 +25,12 @@
         },
 
         computed: {
+            searchItemPoster() {
+                if (this.searchItem.poster_path === null) {
+                    return require("../assets/placeholder-w342.png");
+                }
+                return `https://image.tmdb.org/t/p/w342${this.searchItem.poster_path}`;
+            },
             searchItemTitle() {
                 if(this.searchItem.title) {
                     return this.searchItem.title;
