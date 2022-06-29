@@ -2,7 +2,13 @@
     <div>
         <ul>
             <li v-for="(movie, i) in moviesList" :key="i">
-                <MovieCard :movie="movie"/>
+                <ItemCard :search-item="movie"/>
+            </li>
+        </ul>
+        <div>------------------------------------------------</div>
+        <ul>
+            <li v-for="(serie, i) in seriesList" :key="i">
+                <ItemCard :search-item="serie"/>
             </li>
         </ul>
     </div>
@@ -10,16 +16,19 @@
 
 <script>
     import { state } from '../store'
-    import MovieCard from './MovieCard';
+    import ItemCard from './ItemCard';
 
     export default{
         components: {
-            MovieCard
+            ItemCard
         },
 
         computed: {
             moviesList() {
                 return state.moviesList;
+            },
+            seriesList() {
+                return state.seriesList;
             }
         }
     }

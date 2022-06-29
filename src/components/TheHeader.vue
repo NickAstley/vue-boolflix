@@ -1,15 +1,15 @@
 <template>
     <div>
-        <form v-on:submit.prevent>
+        <form v-on:submit.prevent="">
             <label for="moviedb-search">Cerca un film o una serie tv:</label>
-            <input type="search" name="moviedb-search" id="moviedb-search" v-model="searchedTitle">
+            <input type="search" name="moviedb-search" id="moviedb-search" v-model="searchedTitle" @keyup.enter="onSearch()">
             <button type="submit" @click="onSearch()">Cerca</button>
         </form>
     </div>
 </template>
 
 <script>
-    import { searchMovies } from '../store'
+    import { searchItems } from '../store'
 
     export default {
         data() {
@@ -20,7 +20,10 @@
 
         methods: {
             onSearch() {
-                searchMovies(this.searchedTitle);
+                if(this.searchedTitle) {
+                    searchItems(this.searchedTitle, "movie");
+                    searchItems(this.searchedTitle, "tv");
+                }
             }
         }
     }
