@@ -17,3 +17,14 @@
     }
   }
 </script>
+
+<style lang="scss">
+  @import "./assets/scss/main.scss";
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+  }
+</style>

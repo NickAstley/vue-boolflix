@@ -13,7 +13,10 @@
             <b>Lingua: </b> <span class="fi" :class="`fi-` + itemCountryFlag"></span>
         </li>
         <li>
-            <b>Voto: </b> <i v-for="i in itemAverageVote[0]" :key="i" class="fa-solid fa-star"></i><i v-if="itemAverageVote[1]" class="fa-solid fa-star-half"></i>
+            <b>Voto: </b>
+            <i v-for="i in voteStars.full" :key="i" class="fa-solid fa-star"></i>
+            <i v-if="voteStars.half" class="fa-solid fa-star-half-stroke"></i>
+            <i v-for="i in voteStars.empty" :key="i + 5" class="fa-regular fa-star"></i>
         </li>
     </ul>
 </template>
@@ -27,7 +30,7 @@
         computed: {
             itemPoster() {
                 if (this.searchItem.poster_path === null) {
-                    return require("../assets/placeholder-w342.png");
+                    return require("../assets/img/placeholder-w342.png");
                 }
                 return `https://image.tmdb.org/t/p/w342${this.searchItem.poster_path}`;
             },
@@ -58,22 +61,25 @@
                 }
                 return this.searchItem.original_language;
             },
-            itemAverageVote() {
-                const halfVote = this.searchItem.vote_average / 2;
-                if(halfVote % 1 >= 0.5) {
-                    return [Math.floor(halfVote), 1]
+            voteStars() {
+                const stars = {
+                    full : Math.floor(this.searchItem.vote_average / 2),
+                    empty : 5 - Math.floor(this.searchItem.vote_average / 2)
                 }
-                return [Math.floor(halfVote)];
+                if((this.searchItem.vote_average / 2) % 1 >= 0.5) {
+                    stars.half = 1;
+                    stars.empty--;
+                } else {
+                    stars.half = 0;
+                }
+                return stars;
             }
         }
     }
 </script>
 
 <style lang="scss">
-    @import "~flag-icons/css/flag-icons.css";
-    @import "~@fortawesome/fontawesome-free/css/all.min.css";
-
-    .fa-star, .fa-star-half {
+    .fa-star, .fa-star-half, .fa-star-half-stroke {
         color: #FEBC00;
     }
 </style>
